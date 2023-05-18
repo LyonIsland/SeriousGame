@@ -9,9 +9,6 @@ public class IdeaOut : BaseBall
     void Start()
     {
         this.BuffName = ballData.BuffName;
-        this.speed = ballData.speed;
-        this.damage = ballData.damage;
-        
     }
 
     protected override void doBuff()
@@ -19,9 +16,4 @@ public class IdeaOut : BaseBall
         Debug.Log(BuffName+"doing Buff Logic");
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        base.Update();
-    }
 }

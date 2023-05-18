@@ -23,10 +23,12 @@ public class PlayerControllerSelf : MonoBehaviour
 
     [Header("PC端逻辑测试选项")] 
     public bool isPCTesting;
+    CharacterController characterController;
 
     private void Awake()
     {
         playerStats = GetComponent<PlayerStats>();
+        characterController = GetComponent<CharacterController>();
     }
 
     void Start()
@@ -41,18 +43,18 @@ public class PlayerControllerSelf : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        
+
         if (!isPCTesting)
-        { 
+        {
             Vector3 acc = Accelerometer.current.acceleration.ReadValue();
             if ((acc.x < -0.3 && acc.y > -1.0) || (acc.x > 0.3 && acc.y > -1.0))
             {
-                if (Mathf.Abs(transform.position.x)<edgeAbs)
+                if (Mathf.Abs(transform.position.x) < edgeAbs)
                 {
                     isMove = true;
                 }
-        
-                if (Mathf.Abs(transform.position.x)>=edgeAbs)
+
+                if (Mathf.Abs(transform.position.x) >= edgeAbs)
                 {
                     if (acc.x * transform.position.x > 0)
                     {
@@ -66,27 +68,17 @@ public class PlayerControllerSelf : MonoBehaviour
             {
                 this.transform.position = new Vector3(this.transform.position.x + movingSpeed * acc.x * Time.fixedDeltaTime,
                     this.transform.position.y, this.transform.position.z);
-            
+
             }
         }
         else
-        { 
-            if (Input.GetKey(KeyCode.A))
-                this.transform.position = new Vector3(this.transform.position.x - movingSpeed * Time.deltaTime,
-                    this.transform.position.y, transform.position.z);
-            if (Input.GetKey(KeyCode.D))
-                this.transform.position = new Vector3(this.transform.position.x + movingSpeed * Time.deltaTime,
-                    this.transform.position.y, transform.position.z);
-            // if (left)
-            //     this.transform.position = new Vector3(this.transform.position.x - movingSpeed * leftAng * Time.deltaTime,
-            //         this.transform.position.y, transform.position.z);
-            // if (right)
-            //     this.transform.position = new Vector3(this.transform.position.x + movingSpeed * rightAng  * Time.deltaTime,
-            //         this.transform.position.y, transform.position.z);
+        {
+            var horizontal = Input.GetAxis("Horizontal");
+            var move = transform.right * movingSpeed * horizontal * Time.deltaTime;
+            characterController.Move(move);
+            this.transform.GetChild(0).Rotate(Vector3.forward * Time.deltaTime*-10 * horizontal, Space.World);
         }
-        
-        
-        
+
     }
 
 }

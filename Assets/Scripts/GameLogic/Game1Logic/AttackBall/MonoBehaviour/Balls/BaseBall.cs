@@ -6,36 +6,35 @@ using UnityEngine;
 public class BaseBall : MonoBehaviour
 {
     public BallData_SO ballData;
-    public float speed;
-    public int damage;
+    Transform model;
 
     // Start is called before the first frame update
-    void Start()
-    {
-        this.speed = ballData.speed;
-        this.damage = ballData.damage;
-    }
+
 
     // Update is called once per frame
-    protected virtual void Update()
+
+
+    protected virtual void FixedUpdate()
     {
         moveAndRotate();
+
     }
 
     void moveAndRotate()
     {
-        this.transform.position = new Vector3(this.transform.position.x, this.transform.position.y,
-            this.transform.position.z - speed * Time.deltaTime);
-
-        Vector3 angles = this.transform.localEulerAngles;
-        angles.y += 260 * Time.deltaTime;
-        this.transform.localEulerAngles = angles;
+        this.transform.Translate(new Vector3(0, 0, -1) * Time.deltaTime * ballData.speed, Space.World);   
+        transform.GetChild(0).transform.Rotate(Vector3.up, 220 * Time.deltaTime, Space.World);
+        if (this.transform.position.z < GameObject.Find("mainCamera").transform.position.z)
+        {
+            Destroy(gameObject);
+        }
     }
 
     protected virtual void doBuff()
     {
         Debug.Log("执行增益或减益");
         //具体方法由子类函数重写
+        
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -43,7 +42,9 @@ public class BaseBall : MonoBehaviour
         doBuff();
         if (collision.gameObject.CompareTag("Player"))
         {
-            GameManager.Instance.playerStats.TakeDamage(damage,GameManager.Instance.playerStats);
+            GameManager.Instance.playerStats.AddScore(ballData.score, GameManager.Instance.playerStats);
+            GameManager.Instance.playerStats.TakeDamage(ballData.damage,GameManager.Instance.playerStats);
+            Destroy(gameObject);
         }
     }
 }

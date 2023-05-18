@@ -38,6 +38,11 @@ public class PlayerStats : MonoBehaviour
         updateHealthBarOnAttack?.Invoke(CurrentHealth, MaxHealth);
     }
 
+    public void AddScore(int score, PlayerStats player)
+    {
+        player.playerData.score += score;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
