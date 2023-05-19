@@ -9,6 +9,7 @@ public class BallData_SO : ScriptableObject
     public float speed;
     public int damage;
     public int score;
+    public int chance;
 
     [Header("Buff")]
     public string BuffName;

@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6abda4bd59496c742beaba6d2e492f8b, type: 3}
-  m_Name: IdeaOut
+  m_Name: ScoreBig
   m_EditorClassIdentifier: 
   speed: 4
   damage: 0
